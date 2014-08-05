@@ -12,7 +12,7 @@ $deinflect_dow = array(
 
 $days = get_days();
 
-$group = $_GET['group'];
+$group = isset($_GET['group']) ? $_GET['group'] : false;
 
 $group_exists = false;
 foreach ($days as $day) {
