@@ -45,7 +45,7 @@ $subpage = isset($_GET['free']) ? 'free' : 'schedule';
     <? foreach ($days as $day): ?>
         <div class="row">
             <div class="col-xs-12">
-                <h4><?= spaced_group($group) ?>, <?= $deinflect_dow[preg_replace('@Расписание на (.+?),.*@', '\1', $day['header'])] ?></h4>
+                <h4><?= spaced_group($group) ?>, <?= $deinflect_dow[preg_replace('@Расписание на (.+)@', '\1', $day['header'])] ?></h4>
                 <? foreach ($day['table']['rows'] as $row): ?>
                     <? if ($row['group'] === $group): ?>
                         <table class="table table-bordered" style="width: auto">
