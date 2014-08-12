@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title>Табло</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://rawgit.com/h5bp/html5-boilerplate/master/dist/css/normalize.css">
-    <link rel="stylesheet" href="https://rawgit.com/h5bp/html5-boilerplate/master/dist/css/main.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/h5bp/html5-boilerplate/master/dist/css/normalize.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/h5bp/html5-boilerplate/master/dist/css/main.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
     <style>
@@ -43,10 +43,9 @@
             });
     </script>
 </head>
-<body>
-    <div class="container" ng-controller="tablo" ng-include="'partials/tablo.html'"></div>
-    <script type="text/ng-template" id="partials/tablo.html">
-        <input type="text" class="form-control" ng-model="search.group">
+<body ng-controller="tablo">
+    <div class="container" ng-if="days">
+        <br><input type="text" class="form-control" ng-model="search.group">
         <div class="row" ng-repeat="day in days">
             <div class="col-xs-12">
                 <h2>{{ day.header }}</h2>
@@ -85,6 +84,6 @@
                 </ul>
             </div>
         </div>
-    </script>
+    </div>
 </body>
 </html>
