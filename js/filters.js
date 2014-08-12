@@ -1,8 +1,13 @@
 'use strict';
 
-angular.module('myApp.filters', [])
-    .filter('interpolate', ['version', function(version) {
-        return function(text) {
-            return String(text).replace(/\%VERSION\%/mg, version);
+angular.module('app.filters', [])
+    .filter('spaced_group', function() {
+        return function(group) {
+            return group.replace(/(\d+)/, '$1 '); // TODO: nbsp
         };
-    }]);
+    })
+    .filter('joinBy', function() {
+        return function(input, delimiter) {
+            return input.join(delimiter);
+        };
+    });
