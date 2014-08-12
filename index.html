@@ -70,7 +70,10 @@
         </div>
     </div>
     <div class="container" ng-if="days">
-        <br><input type="text" class="form-control" ng-model="search.group">
+        <br><div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input type="text" class="form-control" ng-model="search.group">
+        </div>
         <div class="row" ng-repeat="day in days">
             <div class="col-xs-12">
                 <h2>{{ day.header }}</h2>
