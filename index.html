@@ -87,7 +87,7 @@
                     <tbody class="lessons">
                         <tr ng-repeat="row in shown_rows = (day.table.rows | filter: search)">
                             <th class="group nobr">{{ row.group }}</th>
-                            <td class="auditorium text-muted" ng-repeat-start="lesson in row.lessons">
+                            <td class="auditorium text-right text-muted" ng-repeat-start="lesson in row.lessons">
                                 <div ng-repeat="sublesson in lesson">{{ sublesson.auditorium }}</div>
                             </td>
                             <td class="lesson" ng-repeat-end>
