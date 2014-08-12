@@ -9,11 +9,24 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/app.css"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/services.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/filters.js"></script>
-    <script src="js/directives.js"></script>
+    <script>
+        angular.module('app', [])
+            .filter('spaced_group', function() {
+                return function(group) {
+                    return group.replace(/(\d+)/, '$1&nbsp;'); // TODO: nbsp
+                };
+            })
+            .filter('joinBy', function() {
+                return function(input, delimiter) {
+                    return input.join(delimiter);
+                };
+            })
+            .controller('tablo', function($scope, $http) {
+                $http.get('data.php').success(function(data) {
+                    $scope.days = data;
+                });
+            });
+    </script>
 </head>
 <body>
     <div ng-controller="tablo" ng-include="'partials/tablo.html'" class="container"></div>
