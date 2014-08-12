@@ -31,11 +31,6 @@
     </style>
     <script>
         angular.module('app', [])
-            .filter('spaced_group', function() {
-                return function(group) {
-                    return group.replace(/(\d+)/, '$1 ');
-                };
-            })
             .filter('joinBy', function() {
                 return function(input, delimiter) {
                     return input.join(delimiter);
@@ -63,8 +58,8 @@
                         </tr>
                     </thead>
                     <tbody class="lessons">
-                        <tr ng-repeat="row in shown_rows = (day.table.rows | filter: search)" id="{{ row.group }}">
-                            <th class="group nobr">{{ row.group | spaced_group }}</th>
+                        <tr ng-repeat="row in shown_rows = (day.table.rows | filter: search)">
+                            <th class="group nobr">{{ row.group }}</th>
                             <td class="auditorium text-muted" ng-repeat-start="lesson in row.lessons">
                                 <div ng-repeat="sublesson in lesson">{{ sublesson.auditorium }}</div>
                             </td>

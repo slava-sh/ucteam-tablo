@@ -76,7 +76,7 @@ function get_days() {
         foreach ($tbody_matches as $i => $row_match) {
             $row = array();
             $items = make_empty_empty(preg_matches('@<td.*?>(.*?)</td>@s', $row_match)[1]);
-            $row['group'] = array_shift($items);
+            $row['group'] = spaced_group(array_shift($items));
             if ($elevens_gone && $row['group'] == 11) {
                 continue;
             }
@@ -151,7 +151,7 @@ function get_days() {
 }
 
 function spaced_group($group) {
-    return preg_replace('@(\d+)@', '\1&nbsp;', $group);
+    return preg_replace('@(\d+)@', '\1 ', $group);
 }
 
 function random_choice($a) {
