@@ -19,7 +19,7 @@
     <div ng-controller="tablo" ng-include="'partials/tablo.html'" class="container"></div>
     <script type="text/ng-template" id="partials/tablo.html">
         <input ng-model="search.group" type="text" class="form-control">
-        <div class="row">
+        <div ng-repeat="day in days" class="row">
             <div class="col-xs-12">
                 <h2>{{ day.header }}</h2>
                 <table class="table table-condensed">
