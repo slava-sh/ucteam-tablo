@@ -11,7 +11,7 @@ $specialDays = array(
     array('02.06.2014', '11.06.2014', 'session'),
     array('12.06.2014', '12.06.2014', 'russia_day'),
     array('13.06.2014', '14.06.2014', 'session'),
-    array('15.06.2014', '30.08.2014', 'summer'),
+    array('15.06.2014', '30.06.2014', 'summer'),
 );
 
 foreach ($specialDays as &$day) {
