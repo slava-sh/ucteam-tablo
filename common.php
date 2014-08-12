@@ -104,6 +104,7 @@ function get_days() {
                     if (empty($sublesson['auditorium'])) {
                         $sublesson['auditorium'] = '';
                     }
+                    $sublesson['name'] = html_entity_decode($sublesson['name']);
                     $lesson[] = $sublesson;
                 }
                 $row['lessons'][] = $lesson;

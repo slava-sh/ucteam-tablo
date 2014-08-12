@@ -7,13 +7,33 @@
     <link rel="stylesheet" href="https://rawgit.com/h5bp/html5-boilerplate/master/dist/css/normalize.css">
     <link rel="stylesheet" href="https://rawgit.com/h5bp/html5-boilerplate/master/dist/css/main.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/app.css"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+    <style>
+        .nobr {
+            white-space: nowrap;
+        }
+        .lessons td, .lessons th.group {
+            vertical-align: middle !important;
+        }
+        th.group {
+            text-align: center;
+        }
+        td.auditorium {
+            padding-right: 0 !important;
+        }
+        td.lesson {
+            padding-left: 0 !important;
+        }
+        td.auditorium > div:after {
+            content: '.';
+            visibility: hidden;
+        }
+    </style>
     <script>
         angular.module('app', [])
             .filter('spaced_group', function() {
                 return function(group) {
-                    return group.replace(/(\d+)/, '$1&nbsp;');
+                    return group.replace(/(\d+)/, '$1 ');
                 };
             })
             .filter('joinBy', function() {
@@ -44,7 +64,7 @@
                     </thead>
                     <tbody class="lessons">
                         <tr ng-repeat="row in shown_rows = (day.table.rows | filter: search)" id="{{ row.group }}">
-                            <th class="group">{{ row.group | spaced_group }}</th>
+                            <th class="group nobr">{{ row.group | spaced_group }}</th>
                             <td class="auditorium text-muted" ng-repeat-start="lesson in row.lessons">
                                 <div ng-repeat="sublesson in lesson">{{ sublesson.auditorium }}</div>
                             </td>
