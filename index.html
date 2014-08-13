@@ -48,6 +48,9 @@
             content: '.';
             visibility: hidden;
         }
+        .highlight {
+            color: #428bca;
+        }
     </style>
     <script>
         angular.module('app', [])
@@ -88,10 +91,18 @@
                         <tr ng-repeat="row in shown_rows = (day.table.rows | filter: search)">
                             <th class="group nobr">{{ row.group }}</th>
                             <td class="auditorium text-right text-muted" ng-repeat-start="lesson in row.lessons">
-                                <div ng-repeat="sublesson in lesson">{{ sublesson.auditorium }}</div>
+                                <div ng-repeat="sublesson in lesson"
+                                     ng-bind="text = sublesson.auditorium"
+                                     ng-class="{ highlight: text === $root.highlight }"
+                                     ng-mouseenter="$root.highlight = text"
+                                     ng-mouseleave="$root.highlight = undefined"></div>
                             </td>
                             <td class="lesson" ng-repeat-end>
-                                <div ng-repeat="sublesson in lesson">{{ sublesson.name }}</div>
+                                <div ng-repeat="sublesson in lesson"
+                                     ng-bind="text = sublesson.name"
+                                     ng-class="{ highlight: text === $root.highlight }"
+                                     ng-mouseenter="$root.highlight = text"
+                                     ng-mouseleave="$root.highlight = undefined"></div>
                             </td>
                         </tr>
                     </tbody>
