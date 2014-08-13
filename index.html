@@ -46,10 +46,6 @@
             content: '.';
             visibility: hidden;
         }
-        .highlight {
-            color: #428bca;
-            cursor: pointer;
-        }
     </style>
     <script>
         angular.module('app', [])
@@ -94,19 +90,13 @@
                                 <th class="group nobr" ng-bind="::row.group"></th>
                                 <td class="auditorium text-right text-muted" ng-repeat-start="lesson in ::row.lessons">
                                     <div ng-repeat="sublesson in ::lesson"
-                                        ng-bind="::text = sublesson.auditorium"
-                                        ng-class="{ highlight: text === $root.highlight }"
-                                        ng-mouseenter="$root.highlight = text"
-                                        ng-mouseleave="$root.highlight = undefined"
-                                        ng-click="search.$ = text"></div>
+                                         ng-bind="::text = sublesson.auditorium"
+                                         ng-click="search.$ = text"></div>
                                 </td>
                                 <td class="lesson" ng-repeat-end>
                                     <div ng-repeat="sublesson in ::lesson"
-                                        ng-bind="::text = sublesson.name"
-                                        ng-class="{ highlight: text === $root.highlight }"
-                                        ng-mouseenter="$root.highlight = text"
-                                        ng-mouseleave="$root.highlight = undefined"
-                                        ng-click="search.$ = text"></div>
+                                         ng-bind="::text = sublesson.name"
+                                         ng-click="search.$ = text"></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -124,12 +114,9 @@
                         <li ng-repeat="header in ::day.table.headers">
                             <strong><span ng-bind="::header"></span>:</strong>
                             <span ng-repeat="auditorium in ::day.free_auditoriums[$index]"
-                                ng-init="::text = auditorium"
-                                ng-class="{ highlight: text === $root.highlight }"
-                                ng-mouseenter="$root.highlight = text"
-                                ng-mouseleave="$root.highlight = undefined"
-                                ng-click="search.$ = text">
-                                <span ng-bind="::auditorium"></span><span ng-if="!$last">,</span>
+                                  ng-init="::text = auditorium"
+                                  ng-click="search.$ = text">
+                                <span ng-bind="::text"></span><span ng-if="::!$last">,</span>
                             </span>
                         </li>
                     </ul>
