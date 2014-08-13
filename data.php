@@ -16,8 +16,6 @@ function make_empty_empty($items) {
 }
 
 function get_days() {
-    global $now, $lessonsEnd;
-
     $lesson_name_map = array(
         'Математ'    => 'Математика',
         'Геометр'    => 'Геометрия',
@@ -35,26 +33,14 @@ function get_days() {
         'ВсИстор'    => 'ВсИстория',
     );
 
-    $cache_time = 10 * 60; // 10 minutes in seconds
-    $cache_dir = 'cache';
-    $cache_file = $cache_dir . '/latest.html';
+    $now = new DateTime();
+    $elevens_gone = $now > new DateTime('23.05.2015 00:00:00');
 
-    $force_use_cache = $now < new DateTime('01.09.2014 14:00:00');
-
-    if (file_exists($cache_file) && ($force_use_cache || filemtime($cache_file) > time() - $cache_time)) {
-        $html = file_get_contents($cache_file);
-    }
-    else {
-        $html = mb_convert_encoding(file_get_contents('http://lyceum.urfu.ru/study/tablo.php'), 'UTF-8', 'cp1251');
-        file_put_contents($cache_file, $html, LOCK_EX);
-        file_put_contents($cache_dir . '/' . $now->format('y.m.d_D') . '.html', $html, LOCK_EX);
-    }
-
-    $elevens_gone = $now > new DateTime('23.05.2014 00:00:00');
-
-    $html_matches = preg_matches('@<h1.*?>(?<header>[^<]*)</h1><table.*?>(?<table><tr>(?<thead>.*?)</tr>(?<tbody>.*?)</table>)@s', $html, true);
     $days = array();
-    foreach ($html_matches as $match) {
+    foreach (array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat') as $dow) {
+        $html = file_get_contents("cache/last_{$dow}.html");
+        $html_matches = preg_matches('@<h1.*?>(?<header>[^<]*)</h1><table.*?>(?<table><tr>(?<thead>.*?)</tr>(?<tbody>.*?)</table>)@s', $html, true);
+        $match = $html_matches[0];
         $day = array();
         $day['header'] = split(',', $match['header'], 2)[0];
 
@@ -130,12 +116,6 @@ function get_days() {
 
         $days[] = $day;
     }
-
-    $lessonsEnd = new DateTime('15:15');
-    if ($now > $lessonsEnd && count($days) === 2) {
-        array_shift($days);
-    }
-
     return $days;
 }
 
