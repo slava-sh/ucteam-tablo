@@ -50,7 +50,6 @@
     <script>
         angular.module('app', [])
             .controller('tablo', function($scope, $http) {
-                $scope.search = {};
                 $http.get('data.php').success(function(data) {
                     $scope.days = data;
                 });
@@ -63,64 +62,46 @@
             <i class="fa fa-refresh fa-spin fa-4x"></i>
         </div>
     </div>
-    <div ng-if="::days">
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <form class="navbar-form navbar-left">
-                    <div class="form-group">
-                        <input type="text" class="form-control" ng-model="search.$">
-                    </div>
-                    <button class="btn btn-default" ng-click="search.$ = undefined"><i class="fa fa-times"></i></button>
-                </form>
+    <div class="container" ng-if="::days">
+        <div class="row" ng-repeat="day in ::days">
+            <div class="col-xs-12">
+                <h2 ng-bind="::day.header"></h2>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th colspan="2" ng-repeat="header in ::day.table.headers" ng-bind="::header"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="lessons">
+                        <tr ng-repeat="row in ::(rows = day.table.rows)">
+                            <th class="group nobr" ng-bind="::row.group"></th>
+                            <td class="auditorium text-right text-muted" ng-repeat-start="lesson in ::row.lessons">
+                                <div ng-repeat="sublesson in ::lesson" ng-bind="sublesson.auditorium"></div>
+                            </td>
+                            <td class="lesson" ng-repeat-end>
+                                <div ng-repeat="sublesson in ::lesson" ng-bind="sublesson.name"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot ng-if="::rows.length > 5">
+                        <tr>
+                            <th></th>
+                            <th colspan="2" ng-repeat="header in ::day.table.headers" ng-bind="::header"></th>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
-        </nav>
-        <div class="container" style="padding-top: 50px">
-            <div class="row" ng-repeat="day in ::days">
-                <div class="col-xs-12">
-                    <h2 ng-bind="::day.header"></h2>
-                    <table class="table table-condensed">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th colspan="2" ng-repeat="header in ::day.table.headers" ng-bind="::header"></th>
-                            </tr>
-                        </thead>
-                        <tbody class="lessons">
-                            <tr ng-repeat="row in shown_rows = (day.table.rows | filter: search)">
-                                <th class="group nobr" ng-bind="::row.group"></th>
-                                <td class="auditorium text-right text-muted" ng-repeat-start="lesson in ::row.lessons">
-                                    <div ng-repeat="sublesson in ::lesson"
-                                         ng-bind="::text = sublesson.auditorium"
-                                         ng-click="search.$ = text"></div>
-                                </td>
-                                <td class="lesson" ng-repeat-end>
-                                    <div ng-repeat="sublesson in ::lesson"
-                                         ng-bind="::text = sublesson.name"
-                                         ng-click="search.$ = text"></div>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tfoot ng-if="shown_rows.length > 5">
-                            <tr>
-                                <th></th>
-                                <th colspan="2" ng-repeat="header in ::day.table.headers" ng-bind="::header"></th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <div class="col-xs-12">
-                    <h3>Где свободно?</h3>
-                    <ul class="list-unstyled">
-                        <li ng-repeat="header in ::day.table.headers">
-                            <strong><span ng-bind="::header"></span>:</strong>
-                            <span ng-repeat="auditorium in ::day.free_auditoriums[$index]"
-                                  ng-init="::text = auditorium"
-                                  ng-click="search.$ = text">
-                                <span ng-bind="::text"></span><span ng-if="::!$last">,</span>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-xs-12">
+                <h3>Где свободно?</h3>
+                <ul class="list-unstyled">
+                    <li ng-repeat="header in ::day.table.headers">
+                        <strong><span ng-bind="::header"></span>:</strong>
+                        <span ng-repeat="auditorium in ::day.free_auditoriums[$index]">
+                            <span ng-bind="::auditorium"></span><span ng-if="::!$last">,</span>
+                        </span>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
