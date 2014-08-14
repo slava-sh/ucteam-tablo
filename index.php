@@ -80,14 +80,6 @@ if (!isset($_GET['skip_special'])) {
     <meta property="vk:app_id" content="3939277">
     <script src="//yandex.st/jquery/2.0.3/jquery.min.js"></script>
     <script src="//vk.com/js/api/openapi.js?105"></script>
-    <script>
-        $(function() {
-            $('table > tbody.lessons > tr').click(function() {
-                $(this).toggleClass('highlight');
-            });
-            $(decodeURIComponent(location.hash)).addClass('highlight');
-        });
-    </script>
 </head>
 <body>
 <? if ($special): ?>
@@ -100,7 +92,7 @@ if (!isset($_GET['skip_special'])) {
     <div class="container">
         <? foreach ($days as $day): ?>
             <div class="row">
-                <div class="col-xs-12">
+                <div id="<?= $day->id ?>" class="col-xs-12">
                     <h2><?= $day->header ?></h2>
                     <table class="table table-condensed">
                         <thead>
@@ -156,6 +148,10 @@ if (!isset($_GET['skip_special'])) {
                 </div>
             </div>
         <? endforeach ?>
+        <script>
+            var now = new Date();
+            window.location.hash = ['Mon', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][now.getDay()];
+        </script>
         <footer>
             <p class="hidden">Расписание в СУНЦе УрФУ</p>
             <p class="contacts">Данные с телевизора. Пишите: <a href="mailto:mail@ucteam.ru">mail@ucteam.ru</a></p>
