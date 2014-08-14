@@ -27,53 +27,8 @@ if (!isset($_GET['skip_special'])) {
     <meta charset="utf-8">
     <title>Табло</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .lessons td, .lessons th.group {
-            vertical-align: middle !important;
-        }
-        th.group {
-            text-align: center;
-            white-space: nowrap;
-        }
-        td.auditorium {
-            padding-right: 0 !important;
-        }
-        td.lesson {
-            padding-left: 0 !important;
-        }
-        td.auditorium > div:after {
-            content: '.';
-            visibility: hidden;
-        }
-        tr.highlight {
-            background-color: #d9edf7;
-        }
-        .contacts {
-            float: right;
-            text-align: right;
-        }
-        .special {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            text-align: center;
-        }
-        .special:before {
-            content: '';
-            display: inline-block;
-            height: 100%;
-            vertical-align: middle;
-        }
-        .special .special-body {
-            display: inline-block;
-            vertical-align: middle;
-            margin-top: -70px;
-        }
-    </style>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="apple-touch-icon-precomposed" href="/tablo/apple-touch-icon.png">
     <meta property="og:title" content="Табло">
     <meta property="og:image" content="http://ucteam.ru/tablo/banner-vk-mo-21.png">
