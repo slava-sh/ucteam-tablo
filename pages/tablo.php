@@ -4,6 +4,7 @@ $days = get_days();
 $groups = isset($_GET['groups']) ? $_GET['groups'] : false;
 
 ?>
+<h5 class="mobile-link visible-xs"><a href="/tablo/m/">Мобильная версия</a></h5>
 <? foreach ($days as $day): ?>
     <div class="row">
         <div class="col-xs-12">
@@ -62,3 +63,9 @@ $groups = isset($_GET['groups']) ? $_GET['groups'] : false;
         </div>
     </div>
 <? endforeach ?>
+<footer>
+    <p class="social"><span id="vk_like"></span><script>VK.Widgets.Like('vk_like');</script></p>
+    <p class="hidden">Расписание в СУНЦе УрФУ</p>
+    <p class="contacts">Данные с телевизора. Пишите: <a href="mailto:mail@ucteam.ru">mail@ucteam.ru</a></p>
+    <p><a href="/tablo/m/">Табло для телефона</a></p>
+</footer>
