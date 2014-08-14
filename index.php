@@ -23,20 +23,19 @@ unset($day);
 
 $now = new DateTime();
 
-$page = isset($_GET['mobile']) ? 'mobile' : 'tablo';
 if (!isset($_GET['skip_special'])) {
-    foreach ($specialDays as $day) {
-        if ($day[0] <= $now && $now <= $day[1]) {
-            $page = $day[2];
-            break;
-        }
-    }
+//     foreach ($specialDays as $day) {
+//         if ($day[0] <= $now && $now <= $day[1]) {
+//             $page = $day[2];
+//             break;
+//         }
+//     }
 }
 
 include('common.php');
 
 ob_start();
-include('pages/' . $page . '.php');
+include('pages/tablo.php');
 $contents = ob_get_clean();
 
 ?>
@@ -47,89 +46,64 @@ $contents = ob_get_clean();
     <title>Табло</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <? if ($page === 'tablo'): ?>
-        <style>
-            .lessons td, .lessons th.group {
-                vertical-align: middle !important;
-            }
-            th.group {
-                text-align: center;
-            }
-            td.auditorium {
-                padding-right: 0 !important;
-            }
-            td.lesson {
-                padding-left: 0 !important;
-            }
-            td.auditorium > div:after {
-                content: '.';
-                visibility: hidden;
-            }
-            tr.highlight {
-                background-color: #d9edf7;
-            }
-            .mobile-link {
-                margin-bottom: -10px;
-            }
-            .contacts {
-                float: right;
-                text-align: right;
-            }
-        </style>
-    <? endif ?>
-    <? if ($page === 'mobile'): ?>
-        <style>
-            .container {
-                margin-top: 10px;
-            }
-        </style>
-    <? endif ?>
+    <style>
+        .nobr {
+            white-space: nowrap;
+        }
+        .lessons td, .lessons th.group {
+            vertical-align: middle !important;
+        }
+        th.group {
+            text-align: center;
+        }
+        td.auditorium {
+            padding-right: 0 !important;
+        }
+        td.lesson {
+            padding-left: 0 !important;
+        }
+        td.auditorium > div:after {
+            content: '.';
+            visibility: hidden;
+        }
+        tr.highlight {
+            background-color: #d9edf7;
+        }
+        .mobile-link {
+            margin-bottom: -10px;
+        }
+        .contacts {
+            float: right;
+            text-align: right;
+        }
+    </style>
     <link rel="apple-touch-icon-precomposed" href="/tablo/apple-touch-icon.png">
     <meta property="og:title" content="Табло">
     <meta property="og:image" content="http://ucteam.ru/tablo/banner-vk-mo-21.png">
     <meta property="vk:app_id" content="3939277">
-    <? if ($page !== 'mobile'): ?>
-        <script src="//yandex.st/jquery/2.0.3/jquery.min.js"></script>
-    <? endif ?>
-    <? if ($page === 'tablo'): ?>
-        <script>
-            $(function() {
-                $('table > tbody.lessons > tr').click(function() {
-                    $(this).toggleClass('highlight');
-                });
-                $(decodeURIComponent(location.hash)).addClass('highlight');
+    <script src="//yandex.st/jquery/2.0.3/jquery.min.js"></script>
+    <script>
+        $(function() {
+            $('table > tbody.lessons > tr').click(function() {
+                $(this).toggleClass('highlight');
             });
-        </script>
-    <? endif ?>
-    <? if ($page !== 'mobile'): ?>
-        <script src="//vk.com/js/api/openapi.js?105"></script>
-    <? endif ?>
+            $(decodeURIComponent(location.hash)).addClass('highlight');
+        });
+    </script>
+    <script src="//vk.com/js/api/openapi.js?105"></script>
 </head>
 <body>
     <div class="container">
-        <? if ($page === 'tablo'): ?>
-            <h5 class="mobile-link visible-xs"><a href="/tablo/m/">Мобильная версия</a></h5>
-        <? endif ?>
+        <h5 class="mobile-link visible-xs"><a href="/tablo/m/">Мобильная версия</a></h5>
 
         <?= $contents ?>
 
         <footer>
-            <? if ($page === 'tablo'): ?>
-                <p class="social"><span id="vk_like"></span><script>VK.Widgets.Like('vk_like');</script></p>
-            <? else: ?>
-                <br>
-            <? endif ?>
-            <? if ($page !== 'mobile'): ?>
-                <? if ($page === 'tablo'): ?>
-                    <p class="hidden">Расписание в СУНЦе УрФУ</p>
-                    <p class="contacts">Данные с телевизора. Пишите: <a href="mailto:mail@ucteam.ru">mail@ucteam.ru</a></p>
-                    <p><a href="/tablo/m/">Табло для телефона</a></p>
-                <? endif ?>
-            <? else: ?>
-                <p>Пишите: <a href="mailto:mail@ucteam.ru">mail@ucteam.ru</a></p>
-            <? endif ?>
+            <p class="social"><span id="vk_like"></span><script>VK.Widgets.Like('vk_like');</script></p>
+            <p class="hidden">Расписание в СУНЦе УрФУ</p>
+            <p class="contacts">Данные с телевизора. Пишите: <a href="mailto:mail@ucteam.ru">mail@ucteam.ru</a></p>
+            <p><a href="/tablo/m/">Табло для телефона</a></p>
         </footer>
     </div>
-    <!-- Yandex.Metrika counter --><script type="text/javascript">var yaParams = { tablo: true, page: 'tablo/<?= $page ?>' };</script><script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter22576558 = new Ya.Metrika({id:22576558, clickmap:true, accurateTrackBounce:true,params:window.yaParams||{ }}); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="//mc.yandex.ru/watch/22576558" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
 </body>
 </html>

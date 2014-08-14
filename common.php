@@ -50,7 +50,7 @@ function get_days() {
     $cache_dir = 'cache';
     $cache_file = $cache_dir . '/latest.html';
 
-    $force_use_cache = $now < new DateTime('23.04.2014 14:00:00');
+    $force_use_cache = true; // $now < new DateTime('23.04.2014 14:00:00');
 
     if (file_exists($cache_file) && ($force_use_cache || filemtime($cache_file) > time() - $cache_time)) {
         $html = file_get_contents($cache_file);
