@@ -2,13 +2,12 @@
 
 date_default_timezone_set('Asia/Yekaterinburg');
 
-$specials = json_decode(file_get_contents('specials.json'));
-
 $days = array();
 foreach (array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat') as $dow) {
     $days[] = json_decode(file_get_contents("cache/last_{$dow}.json"));
 }
 
+$specials = json_decode(file_get_contents('specials.json'));
 $special = false;
 if (!isset($_GET['skip_special'])) {
     $now = new DateTime();
@@ -19,6 +18,8 @@ if (!isset($_GET['skip_special'])) {
         }
     }
 }
+
+$groups = isset($_GET['groups']) ? $_GET['groups'] : false;
 
 ?>
 <!DOCTYPE html>
@@ -48,18 +49,18 @@ if (!isset($_GET['skip_special'])) {
         <? foreach ($days as $day): ?>
             <div class="row">
                 <div id="<?= $day->id ?>" class="col-xs-12">
-                    <h2><?= $day->header ?></h2>
+                    <h2><?= $day->day_of_week ?></h2>
                     <table class="table table-condensed">
                         <thead>
                             <tr>
                                 <th></th>
-                                <? foreach ($day->table->headers as $header_i => $header): ?>
-                                    <th colspan="2"><?= $header ?></th>
-                                <? endforeach ?>
+                                <? for ($lesson = 1; $lesson <= 7; ++$lesson): ?>
+                                    <th colspan="2"><?= $lesson ?>-й урок</th>
+                                <? endfor ?>
                             </tr>
                         </thead>
                         <tbody class="lessons">
-                            <? foreach ($day->table->rows as $row): ?>
+                            <? foreach ($day->table as $row): ?>
                                 <? if (!$groups || in_array($row->group, $groups, true)): ?>
                                     <tr>
                                         <th class="group"><?= $row->group ?></th>
@@ -83,9 +84,9 @@ if (!isset($_GET['skip_special'])) {
                             <tfoot>
                                 <tr>
                                     <th></th>
-                                    <? foreach ($day->table->headers as $header_i => $header): ?>
-                                        <th colspan="2"><?= $header ?></th>
-                                    <? endforeach ?>
+                                    <? for ($lesson = 1; $lesson <= 7; ++$lesson): ?>
+                                        <th colspan="2"><?= $lesson ?>-й урок</th>
+                                    <? endfor ?>
                                 </tr>
                             </tfoot>
                         <? endif ?>
@@ -94,11 +95,16 @@ if (!isset($_GET['skip_special'])) {
                 <div class="col-xs-12">
                     <h3>Где свободно?</h3>
                     <ul class="list-unstyled">
-                        <? foreach ($day->table->headers as $header_i => $header): ?>
+                        <? for ($lesson = 1; $lesson <= 7; ++$lesson): ?>
                             <li>
-                                <strong><?= $header ?>:</strong> <?= implode(', ', $day->free_auditoriums[$header_i]) ?>
+                                <strong><?= $lesson ?>-й урок:</strong>
+                                <? if (empty($day->free_auditoriums[$lesson - 1])): ?>
+                                    везде занято
+                                <? else: ?>
+                                    <?= implode(', ', $day->free_auditoriums[$lesson - 1]) ?>
+                                <? endif ?>
                             </li>
-                        <? endforeach ?>
+                        <? endfor ?>
                     </ul>
                 </div>
             </div>
