@@ -42,17 +42,30 @@ function preg_matches($pattern, $subject, $set_order = false) {
     return $ok !== 0 && $ok !== false ? $matches : false;
 }
 
-$html = mb_convert_encoding(file_get_contents('http://lyceum.urfu.ru/study/tablo.php'), 'UTF-8', 'cp1251');
-file_put_contents('cache/' . $now->format('y.m.d_D') . '.html', $html);
+if (isset($_GET['file'])) {
+    $file = strval($_GET['file']);
+    echo "Reading from $file<br>";
+    $html = file_get_contents($file);
+}
+else {
+    $html = mb_convert_encoding(file_get_contents('http://lyceum.urfu.ru/study/tablo.php'), 'UTF-8', 'cp1251');
+    $cache_file = 'cache/' . $now->format('y.m.d_D') . '.html';
+    file_put_contents($cache_file, $html);
+    echo "Cached to {$cache_file}<br>";
+}
 
 $html = html_entity_decode(str_replace('&nbsp;', ' ', $html));
 $html_matches = preg_matches('@<h1.*?>(?<header>[^<]*)</h1><table.*?>(?<table><tr>(?<thead>.*?)</tr>(?<tbody>.*?)</table>)@s', $html, true);
+if (!$html_matches) {
+    echo 'No schedule found<br>';
+    exit();
+}
 foreach ($html_matches as $match) {
     $day = array();
     $day['day_of_week'] = preg_matches('@Расписание на (.+?),@', $match['header'])[1][0];
     $day['id'] = $day_of_week_id[$day['day_of_week']];
 
-    echo "Processing {$day['id']}\n";
+    echo "Processing {$day['id']}<br>";
 
     $day['table'] = array();
     $tbody_matches = preg_matches('@<tr.*?>(.*?)</tr>@s', $match['tbody'])[1];
