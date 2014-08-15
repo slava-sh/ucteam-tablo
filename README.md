@@ -2,5 +2,3 @@
 ==========
 
 http://ucteam.ru/tablo/
-
-The code is full of bad practices.
