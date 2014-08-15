@@ -22,7 +22,8 @@ $specials = json_decode(file_get_contents('specials.json'));
 $special = false;
 if (!isset($_GET['skip_special'])) {
     $now = new DateTime();
-    foreach ($specials as list($from, $until, $message)) {
+    foreach ($specials as $i) {
+        list($from, $until, $message) = $i;
         if (new DateTime($from) <= $now && $now <= new DateTime($until)) {
             $special = $message;
             break;
