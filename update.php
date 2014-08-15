@@ -27,13 +27,24 @@ $auditoriums = array_map('strval', array(
 $now = new DateTime();
 $elevens_gone = $now > new DateTime('23.05.2015 00:00:00');
 
+$deinflect_day_of_week = array(
+    'понедельник' => 'понедельник',
+    'вторник'     => 'вторник',
+    'среду'       => 'среда',
+    'четверг'     => 'четверг',
+    'пятницу'     => 'пятница',
+    'субботу'     => 'суббота',
+    'воскресенье' => 'воскресенье',
+);
+
 $day_of_week_id = array(
     'понедельник' => 'Mon',
     'вторник'     => 'Tue',
-    'среду'       => 'Wed',
+    'среда'       => 'Wed',
     'четверг'     => 'Thu',
-    'пятницу'     => 'Fri',
-    'субботу'     => 'Sat',
+    'пятница'     => 'Fri',
+    'суббота'     => 'Sat',
+    'воскресенье' => 'Sun',
 );
 
 function preg_matches($pattern, $subject, $set_order = false) {
@@ -62,7 +73,8 @@ if (!$html_matches) {
 }
 foreach ($html_matches as $match) {
     $day = array();
-    $day['day_of_week'] = preg_matches('@Расписание на (.+?),@', $match['header'])[1][0];
+    $inflected_day_of_week = preg_matches('@Расписание на (.+?),@', $match['header'])[1][0];
+    $day['day_of_week'] = $deinflect_day_of_week[$inflected_day_of_week];
     $day['id'] = $day_of_week_id[$day['day_of_week']];
 
     echo "Processing {$day['id']}<br>";

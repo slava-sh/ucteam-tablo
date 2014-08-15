@@ -2,6 +2,17 @@
 
 date_default_timezone_set('Asia/Yekaterinburg');
 
+if (!function_exists('mb_ucfirst')) {
+    function mb_ucfirst($str, $encoding = 'UTF-8', $lower_str_end = false) {
+        $first = mb_strtoupper(mb_substr($str, 0, 1, $encoding), $encoding);
+        $rest = mb_substr($str, 1, mb_strlen($str), $encoding);
+        if ($lower_str_end) {
+            $rest = mb_strtolower($rest, $encoding);
+        }
+        return $first . $rest;
+    }
+}
+
 $days = array();
 foreach (array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat') as $dow) {
     $days[] = json_decode(file_get_contents("cache/last_{$dow}.json"));
@@ -49,7 +60,7 @@ $groups = isset($_GET['groups']) ? $_GET['groups'] : false;
         <? foreach ($days as $day): ?>
             <div class="row">
                 <div id="<?= $day->id ?>" class="col-xs-12">
-                    <h2><?= $day->day_of_week ?></h2>
+                    <h2><?= mb_ucfirst($day->day_of_week) ?></h2>
                     <table class="table table-condensed">
                         <thead>
                             <tr>
