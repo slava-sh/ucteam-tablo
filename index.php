@@ -46,7 +46,6 @@ $groups = isset($_GET['groups']) ? $_GET['groups'] : false;
     <meta property="og:title" content="Табло">
     <meta property="og:image" content="http://ucteam.ru/tablo/banner-vk-mo-21.png">
     <meta property="vk:app_id" content="3939277">
-    <script src="//yandex.st/jquery/2.0.3/jquery.min.js"></script>
     <script src="//vk.com/js/api/openapi.js?105"></script>
 </head>
 <body>
