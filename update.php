@@ -2,6 +2,9 @@
 
 date_default_timezone_set('Asia/Yekaterinburg');
 
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 $config = json_decode(file_get_contents('config.json'));
 $config->lesson_name_map = (array) $config->lesson_name_map;
 
