@@ -2,10 +2,11 @@
 
 date_default_timezone_set('Asia/Yekaterinburg');
 
-$config = json_decode(file_get_contents('config.json'), true);
+$config = json_decode(file_get_contents('config.json'));
+$config->lesson_name_map = (array) $config->lesson_name_map;
 
 $now = new DateTime();
-$elevens_gone = $now > new DateTime($config['no_elevens']);
+$elevens_gone = $now > new DateTime($config->no_elevens);
 
 $deinflect_day_of_week = array(
     'понедельник' => 'понедельник',
@@ -77,8 +78,8 @@ foreach ($html_matches as $match) {
                     'name'       => trim($sublesson_match[0]['name']),
                     'auditorium' => trim($sublesson_match[0]['auditorium']),
                 );
-                if (isset($config['lesson_name_map'][$sublesson['name']])) {
-                    $sublesson['name'] = $config['lesson_name_map'][$sublesson['name']];
+                if (isset($config->lesson_name_map[$sublesson['name']])) {
+                    $sublesson['name'] = $config->lesson_name_map[$sublesson['name']];
                 }
                 $lesson[] = $sublesson;
             }
@@ -90,7 +91,7 @@ foreach ($html_matches as $match) {
     $free_auditoriums = array();
     for ($lesson_i = 0; $lesson_i < 7; ++$lesson_i) {
         $is_free = array();
-        foreach ($config['auditoriums'] as $auditorium) {
+        foreach ($config->auditoriums as $auditorium) {
             $is_free[$auditorium] = true;
         }
         foreach ($day['table'] as $row) {
@@ -99,7 +100,7 @@ foreach ($html_matches as $match) {
             }
         }
         $free_auditoriums[$lesson_i] = array();
-        foreach ($config['auditoriums'] as $auditorium) {
+        foreach ($config->auditoriums as $auditorium) {
             if ($is_free[$auditorium]) {
                 $free_auditoriums[$lesson_i][] = $auditorium;
             }

@@ -2,7 +2,7 @@
 
 date_default_timezone_set('Asia/Yekaterinburg');
 
-$config = json_decode(file_get_contents('config.json'), true);
+$config = json_decode(file_get_contents('config.json'));
 
 if (!function_exists('mb_ucfirst')) {
     function mb_ucfirst($str, $encoding = 'UTF-8', $lower_str_end = false) {
@@ -23,7 +23,7 @@ foreach (array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat') as $dow) {
 $special = false;
 if (!isset($_GET['skip_special'])) {
     $now = new DateTime();
-    foreach ($config['specials'] as $i) {
+    foreach ($config->specials as $i) {
         list($from, $until, $message) = $i;
         if (new DateTime($from) <= $now && $now <= new DateTime($until)) {
             $special = $message;
