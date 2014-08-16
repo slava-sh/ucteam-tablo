@@ -4,17 +4,17 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
 if (!empty($_POST)) {
-    $data = $_POST;
-    $data['auditoriums'] = preg_split('/\s+/', $data['auditoriums']);
+    $config = $_POST;
+    $config['auditoriums'] = preg_split('/\s+/', $config['auditoriums']);
     $lesson_name_map = array();
-    foreach ($data['lesson_name_map'] as $i) {
+    foreach ($config['lesson_name_map'] as $i) {
         if (!empty($i['from']) && !empty($i['to'])) {
             $lesson_name_map[$i['from']] = $i['to'];
         }
     }
-    $data['lesson_name_map'] = $lesson_name_map;
+    $config['lesson_name_map'] = $lesson_name_map;
 
-    file_put_contents('config.json', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    file_put_contents('config.json', json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 }
 
 ?>
