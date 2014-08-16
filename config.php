@@ -13,6 +13,8 @@ if (!empty($_POST)) {
         }
     }
     $data['lesson_name_map'] = $lesson_name_map;
+
+    file_put_contents('config.json', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 }
 
 ?>
