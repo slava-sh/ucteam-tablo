@@ -7,6 +7,10 @@ th.group {
     white-space: nowrap;
 }
 
+th.lesson {
+    white-space: nowrap;
+}
+
 td.auditorium {
     padding-right: 0 !important;
 }

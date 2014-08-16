@@ -66,7 +66,7 @@ $groups = isset($_GET['groups']) ? $_GET['groups'] : false;
                             <tr>
                                 <th></th>
                                 <? for ($lesson = 1; $lesson <= 7; ++$lesson): ?>
-                                    <th colspan="2"><?= $lesson ?>-й урок</th>
+                                    <th colspan="2" class="lesson"><?= $lesson ?>-й урок</th>
                                 <? endfor ?>
                             </tr>
                         </thead>
@@ -96,7 +96,7 @@ $groups = isset($_GET['groups']) ? $_GET['groups'] : false;
                                 <tr>
                                     <th></th>
                                     <? for ($lesson = 1; $lesson <= 7; ++$lesson): ?>
-                                        <th colspan="2"><?= $lesson ?>-й урок</th>
+                                        <th colspan="2" class="lesson"><?= $lesson ?>-й урок</th>
                                     <? endfor ?>
                                 </tr>
                             </tfoot>
