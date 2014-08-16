@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('Asia/Yekaterinburg');
+
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
@@ -80,7 +82,7 @@ if (!empty($_POST)) {
                                         <input name="specials[{{ $index }}][message]" type="text" class="form-control" ng-model="item.message">
                                     </div>
                                     <div class="col-sm-1">
-                                        <button type="button" class="btn btn-default" ng-click="config.specials.splice($index + 1, 0, {})"><i class="fa fa-plus"></i></button>
+                                        <button type="button" class="btn btn-default" ng-click="config.specials.splice($index + 1, 0, { from: '<?= date('Y-m-d\T00:00:00\Z') ?>', until: '<?= date('Y-m-d\T23:59:59\Z') ?>' })"><i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
                             </div>
