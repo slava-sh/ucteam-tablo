@@ -1,31 +1,11 @@
 <?php
 
-$lesson_name_map = array(
-    'Математ'    => 'Математика',
-    'Геометр'    => 'Геометрия',
-    'Информ'     => 'Информатика',
-    'Астроно'    => 'Астрономия',
-    'Географ'    => 'География',
-    'Литерат'    => 'Литература',
-    'Биологи'    => 'Биология',
-    'Экономи'    => 'Экономика',
-    'Обществ'    => 'Общество',
-    'Англ. язык' => 'Английский',
-    'Риторик'    => 'Риторика',
-    'ИстДрВр'    => 'ИсторияДрВр',
-    'ЗарЛит'     => 'Заруба',
-    'ВсИстор'    => 'ВсИстория',
-);
+date_default_timezone_set('Asia/Yekaterinburg');
 
-$auditoriums = array_map('strval', array(
-    104, 105, 106, 107, 109,
-    200, 201, 211, 212,
-    301, 302, 303, 304, 305, 306, 307, 308, 309, 310,
-    116, 117, 127, 219, 220, 221, 222, 311, 312, 313, 314, 315
-));
+$config = json_decode(file_get_contents('config.json'), true);
 
 $now = new DateTime();
-$elevens_gone = $now > new DateTime('23.05.2015 00:00:00');
+$elevens_gone = $now > new DateTime($config['no_elevens']);
 
 $deinflect_day_of_week = array(
     'понедельник' => 'понедельник',
@@ -97,8 +77,8 @@ foreach ($html_matches as $match) {
                     'name'       => trim($sublesson_match[0]['name']),
                     'auditorium' => trim($sublesson_match[0]['auditorium']),
                 );
-                if (isset($lesson_name_map[$sublesson['name']])) {
-                    $sublesson['name'] = $lesson_name_map[$sublesson['name']];
+                if (isset($config['lesson_name_map'][$sublesson['name']])) {
+                    $sublesson['name'] = $config['lesson_name_map'][$sublesson['name']];
                 }
                 $lesson[] = $sublesson;
             }
@@ -110,7 +90,7 @@ foreach ($html_matches as $match) {
     $free_auditoriums = array();
     for ($lesson_i = 0; $lesson_i < 7; ++$lesson_i) {
         $is_free = array();
-        foreach ($auditoriums as $auditorium) {
+        foreach ($config['auditoriums'] as $auditorium) {
             $is_free[$auditorium] = true;
         }
         foreach ($day['table'] as $row) {
@@ -119,7 +99,7 @@ foreach ($html_matches as $match) {
             }
         }
         $free_auditoriums[$lesson_i] = array();
-        foreach ($auditoriums as $auditorium) {
+        foreach ($config['auditoriums'] as $auditorium) {
             if ($is_free[$auditorium]) {
                 $free_auditoriums[$lesson_i][] = $auditorium;
             }
