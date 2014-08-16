@@ -61,7 +61,7 @@ if (!empty($_POST)) {
         <div class="row">
             <div class="col-sm-6 col-sm-push-3">
                 <br>
-                <form role="form" method="post" action="config.php">
+                <form role="form" method="post" action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="form-group">
