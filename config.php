@@ -43,6 +43,15 @@ if (!empty($_POST)) {
             padding-left: 0;
             padding-right: 5px;
         }
+        .form-group .repeat-group {
+            padding-bottom: 10px;
+        }
+        .form-group .repeat-group:last-child {
+            padding-bottom: 0;
+        }
+        .form-group .repeat-group .row {
+            margin-bottom: 5px;
+        }
     </style>
     <script>
         angular.module('app', [])
@@ -65,30 +74,32 @@ if (!empty($_POST)) {
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="form-group">
-                                <label>Когда показывать заглушки?</label>
-                                <div class="row" ng-repeat-start="item in config.specials">
-                                    <div class="col-sm-5">
-                                        <input name="specials[{{ $index }}][from]" type="datetime" class="form-control" ng-model="item.from">
+                                <label>Заглушки</label>
+                                <div class="repeat-group" ng-repeat="item in config.specials">
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <input name="specials[{{ $index }}][from]" type="datetime" class="form-control" ng-model="item.from">
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input name="specials[{{ $index }}][until]" type="datetime" class="form-control" ng-model="item.until">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-default" ng-click="config.specials.splice($index, 1)"><i class="fa fa-trash-o"></i></button>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-5">
-                                        <input name="specials[{{ $index }}][until]" type="datetime" class="form-control" ng-model="item.until">
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <button type="button" class="btn btn-default" ng-click="config.specials.splice($index, 1)"><i class="fa fa-trash-o"></i></button>
-                                    </div>
-                                </div>
-                                <div class="row" ng-repeat-end>
-                                    <div class="col-sm-10">
-                                        <input name="specials[{{ $index }}][message]" type="text" class="form-control" ng-model="item.message">
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <button type="button" class="btn btn-default" ng-click="config.specials.splice($index + 1, 0, { from: '<?= date('Y-m-d\T00:00:00\Z') ?>', until: '<?= date('Y-m-d\T23:59:59\Z') ?>' })"><i class="fa fa-plus"></i></button>
+                                    <div class="row">
+                                        <div class="col-sm-10">
+                                            <input name="specials[{{ $index }}][message]" type="text" class="form-control" ng-model="item.message">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button type="button" class="btn btn-default" ng-click="config.specials.splice($index + 1, 0, { from: '<?= date('Y-m-d\T00:00:00\Z') ?>', until: '<?= date('Y-m-d\T23:59:59\Z') ?>' })"><i class="fa fa-plus"></i></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="no_elevens">Когда перестать показывать 11-классников?</label>
+                                <label for="no_elevens">Когда перестать показывать 11 классы?</label>
                                 <div class="row">
                                     <div class="col-sm-5">
                                         <input name="no_elevens" id="no_elevens" type="datetime" class="form-control" ng-model="config.no_elevens">
@@ -97,7 +108,7 @@ if (!empty($_POST)) {
                             </div>
 
                             <div class="form-group">
-                                <label>Как изменять названия уроков?</label>
+                                <label>Как изменять названия предметов?</label>
                                 <div class="row" ng-repeat="item in config.lesson_name_map">
                                     <div class="col-sm-5">
                                         <input name="lesson_name_map[{{ $index }}][from]" type="text" class="form-control" ng-model="item.from">
@@ -134,4 +145,3 @@ if (!empty($_POST)) {
     </div>
 </body>
 </html>
-
