@@ -130,7 +130,6 @@ if (!empty($_POST)) {
             </div>
         </div>
     </div>
-    <? if (isset($data)): ?><pre><? var_export($data) ?></pre><? endif ?>
 </body>
 </html>
 
