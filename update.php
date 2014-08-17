@@ -7,9 +7,7 @@ ini_set('display_errors', '1');
 
 $config = json_decode(file_get_contents('config.json'));
 $config->lesson_name_map = (array) $config->lesson_name_map;
-
-$now = new DateTime();
-$elevens_gone = $now > new DateTime($config->no_elevens);
+$config->no_elevens = strtotime($config->no_elevens);
 
 $deinflect_day_of_week = array(
     'понедельник' => 'понедельник',
@@ -44,7 +42,7 @@ if (isset($_GET['file'])) {
 }
 else {
     $html = mb_convert_encoding(file_get_contents('http://lyceum.urfu.ru/study/tablo.php'), 'UTF-8', 'cp1251');
-    $cache_file = 'cache/' . $now->format('y.m.d_D') . '.html';
+    $cache_file = 'cache/' . date('y.m.d_D') . '.html';
     file_put_contents($cache_file, $html);
     echo "Cached to {$cache_file}<br>";
 }
@@ -65,11 +63,12 @@ foreach ($html_matches as $match) {
 
     $day['table'] = array();
     $tbody_matches = preg_matches('@<tr.*?>(.*?)</tr>@s', $match['tbody'])[1];
+    $no_elevens = strtotime("{$day['id']} 09:00") > $config->no_elevens;
     foreach ($tbody_matches as $row_match) {
         $row = array();
         $items = preg_matches('@<td.*?>(.*?)</td>@s', $row_match)[1];
         $row['group'] = preg_replace('@(\d+)@', '\1 ', array_shift($items));
-        if ($elevens_gone && $row['group'] == 11) {
+        if ($no_elevens && $row['group'] == 11) {
             continue;
         }
         foreach ($items as $item) {

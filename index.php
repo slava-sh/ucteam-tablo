@@ -22,9 +22,9 @@ foreach (array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat') as $dow) {
 
 $special = false;
 if (!isset($_GET['skip_special'])) {
-    $now = new DateTime();
+    $now = time();
     foreach ($config->specials as $s) {
-        if (new DateTime($s->from) <= $now && $now <= new DateTime($s->until)) {
+        if (strtotime($s->from) <= $now && $now <= strtotime($s->until)) {
             $special = $s->message;
             break;
         }
